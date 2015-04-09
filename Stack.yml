@@ -1,0 +1,39 @@
+
+rabbitmq-client-lb:
+  image: tutum/haproxy
+  environment:
+    - BACKEND_PORT=8080
+  links:
+    - rabbitmq-client
+  ports:
+    - "80:80"
+  roles:
+    - global
+
+rabbitmq-admin:
+  image: tutum/haproxy
+  environment:
+    - FRONTEND_PORT=15672
+    - BACKEND_PORT=15672
+  links:
+    - rabbitmq
+  ports:
+    - "15672:15672"
+  roles:
+    - global
+
+rabbitmq-client:
+  image: tutum.co/pierredavidbelanger/rabbitmq-client
+  environment:
+    - SPRING_RABBITMQ_ADDRESSES=amqp://admin:myprodpass@rabbitmq:5672
+  links:
+    - rabbitmq
+  sequential_deployment: true
+
+rabbitmq:
+  image: tutum/rabbitmq
+  environment:
+    - RABBITMQ_PASS=myprodpass
+    - CLUSTER_WITH=rabbitmq-1
+  volumes:
+    - /var/lib/rabbitmq
