@@ -57,7 +57,7 @@ c2a339afe450        maven:3-jdk-8       "true"              2 seconds ago       
 We run a new autoremove containerized Maven (linked to the previous data volume) to build the application:
 
 ```bash
-docker run -it --rm --volumes-from maven-data -v "$PWD":/usr/src/maven -w /usr/src/maven -w /usr/src/maven maven:3-jdk-8 mvn clean package
+$ docker run -it --rm --volumes-from maven-data -v "$PWD":/usr/src/maven -w /usr/src/maven maven:3-jdk-8 mvn clean package
 ```
 
 This is the actual Java build part. We run interactively the command `mvn clean package` from the `maven:3-jdk-8` image. This command is run in the host current directory (where the [pom.xml](pom.xml) is), this is working because we tell docker to mount a volume from `"$PWD"` on the host to `/usr/src/maven` in the container, and we tell docker to use the container `/usr/src/maven` path as the working directory. Also, we mounted the volume from `maven-data`, this way Maven will reuse its cached dependencies the next time we compile.
