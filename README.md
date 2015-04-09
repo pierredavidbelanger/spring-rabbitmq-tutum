@@ -1,6 +1,6 @@
 # Fun with Docker, Java, Spring Boot, Maven, RabbitMQ and Tutum
 
-This is a log of my experimentation session playing with Docker to locally build with (containerized) Maven a simple (also containerized) Java Spring Boot application that send/receive to/from (also containerized) RabbitMQ before deploying the complete stack on Tutum in a production like environment.
+This is a log of my experimentation session playing with [Docker](https://www.docker.com/) to locally build with (containerized) [Maven](https://maven.apache.org/) a simple (also containerized) Java [Spring Boot](http://projects.spring.io/spring-boot/) application that send/receive to/from (also containerized) [RabbitMQ](https://www.rabbitmq.com/) before deploying the complete stack on [Tutum](https://www.tutum.co/) in a production like environment.
 
 ## We need
 
@@ -32,7 +32,7 @@ $ cd spring-rabbitmq-tutum
 
 ## Build the application
 
-The application is a simple 2 classes Spring Boot web application that allows one to call URL to `/send` a message to RabbitMQ, and `/receive` it. The class `Application` is the entry point, and `QueueController` the REST controller.
+The application is a simple 2 classes Spring Boot web application that allows one to call URL to `/send` a message to RabbitMQ, and `/receive` it. The class [Application](src/main/java/ca/pjer/rabbitmqclient/Application.java) is the entry point, and [QueueController](src/main/java/ca/pjer/rabbitmqclient/QueueController.java) the REST controller.
 
 ### Create a data volume to store Maven dependencies
 
@@ -60,7 +60,7 @@ We run a new autoremove containerized Maven (linked to the previous data volume)
 docker run -it --rm --volumes-from maven-data -v "$PWD":/usr/src/maven -w /usr/src/maven -w /usr/src/maven maven:3-jdk-8 mvn clean package
 ```
 
-This is the actual Java build part. We run interactively the command `mvn clean package` from the `maven:3-jdk-8` image. This command is run in the host current directory (where the `pom.xml` is), this is working because we tell docker to mount a volume from `"$PWD"` on the host to `/usr/src/maven` in the container, and we tell docker to use the container `/usr/src/maven` path as the working directory. Also, we mounted the volume from `maven-data`, this way Maven will reuse its cached dependencies the next time we compile.
+This is the actual Java build part. We run interactively the command `mvn clean package` from the `maven:3-jdk-8` image. This command is run in the host current directory (where the [pom.xml](pom.xml) is), this is working because we tell docker to mount a volume from `"$PWD"` on the host to `/usr/src/maven` in the container, and we tell docker to use the container `/usr/src/maven` path as the working directory. Also, we mounted the volume from `maven-data`, this way Maven will reuse its cached dependencies the next time we compile.
 
 ### Create the container image
 
@@ -70,7 +70,7 @@ Now the containerization of our application:
 $ docker build -t rabbitmq-client .
 ```
 
-This process uses the `Dockerfile` file. We named our image `rabbitmq-client`.
+This process uses the [Dockerfile](Dockerfile) file. We named our image `rabbitmq-client`.
 
 We can see our newly created image:
 
@@ -177,7 +177,7 @@ It should be available now:
 
 ### Create and deploy the Stack
 
-Now we create the Stack (`Stack.yml` file) using Tutum web interface:
+Now we create the Stack ([Stack.yml](Stack.yml) file) using Tutum web interface:
 
 ![Stack](assets/asset6.png)
 
