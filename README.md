@@ -90,7 +90,7 @@ We will try our new application locally. But first we need to start a local Rabb
 $ docker run -d --name rabbitmq -e RABBITMQ_PASS="mypass" -p 5672:5672 -p 15672:15672 tutum/rabbitmq
 ```
 
-This command started a single node RabbitMQ instance named `rabbitmq` from the image `tutum/rabbitmq`. We also published port 5672 and 15672 and set the `admin` password to `mypass`.
+This command started a single node RabbitMQ instance named `rabbitmq` from the image `tutum/rabbitmq`. We also published port `5672` and `15672` and set the `admin` password to `mypass`.
 
 We can have a look at the logs to see it is running:
 
@@ -129,7 +129,7 @@ We can go to the `rabbitmq-client` container IP in our browser, on port `8080`. 
 
 ![Send](assets/asset1.png)
 
-We can see our message is in the queue, the RabbitMQ management interface is available if we go to the `rabbitmq` container IP in our browser, on port `8080`.
+We can see our message is in the queue, the RabbitMQ management interface is available if we go to the `rabbitmq` container IP in our browser, on port `15672`.
 
 ![Look](assets/asset2.png)
 
@@ -158,6 +158,8 @@ We use the Tutum web interface to create our 3 machines cluster:
 
 We push our application to Tutum's private Docker image registry.
 
+*Note: In this part, you will have to replace `pierredavidbelanger` with your Tutum username.*
+
 But we need to login first:
 
 ```bash
@@ -177,7 +179,9 @@ It should be available now:
 
 ### Create and deploy the Stack
 
-Now we create the Stack ([Stack.yml](Stack.yml) file) using Tutum web interface:
+Now we create the entire stack by uploading the [Stack.yml](Stack.yml) file using the Tutum web interface. *(Note: remember to replace `pierredavidbelanger` in this file with your Tutum username.)*
+
+I named the stack `test`.
 
 ![Stack](assets/asset6.png)
 
